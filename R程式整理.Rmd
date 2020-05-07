@@ -1,0 +1,571 @@
+---
+output: html_document
+---
+
+# $$R程式整理$$    
+## $$H24076100塗銘鈞$$
+
+\newpage
+
+# **`Calculator`** 
+  + #### 加法 `+`
+  + #### 減法 `-`
+  + #### 乘法 `*`
+  + #### 除法 `/`
+```{r}
+8 + 5
+8 - 5
+8 * 5
+8 / 5
+```
+  + #### 次方 `**`or`^` 
+  + #### 餘數 `%%`
+  + #### 商數 `%/%`
+```{r}
+8 ^ 5
+8 %% 5
+8 %/% 5
+```
+  + #### 根號 `sqrt()`
+  + #### 絕對值 `abs()`
+  + #### 指對數 `exp()` `log()`
+```{r}
+sqrt(2)
+abs(-4)
+exp(2)
+log2(8)
+log(8 ,base = 2)
+log(8 ,base = exp(1))
+```
+  + #### 三角函數
+```{r}
+sin(1)
+tan(1)
+```
+
+\newpage
+
+# **`Sequenece`** 
+* #### 從1寫到15
+```{r}
+1:15
+```
+* #### `seq(首項,末項,間隔)` 
+```{r}
+seq(1, 15, 3)
+```
+* #### `length.out`為組數
+```{r}
+seq(1, 15, length.out = 8)
+```
+# **`Repeat`** 
+* #### `rep(數字,次數)` 
+```{r}
+rep(3, 12)
+rep(seq(2, 10, 2), 2)
+```
+
+\newpage
+
+# **`Assighment`** 
+* #### 指派 `<-` or `=`
+```{r}
+a <- 3*3
+b = 3*3
+a
+b
+```
+p.s.兩種皆通用但避免與`==`(等於)搞混，多數狀況都使用`<-`
+```{r}
+a <- 200
+b <- 5
+a / b - 5
+```
+```{r}
+x <- c(1:25)
+MEAN <- mean
+MEAN(x) 
+```
+p.s.也可對functions做指派
+
+`a + c`  
+`## Error in eval(expr, envir, enclos): object 'c' not found.`  
+p.s.若有未指派到的變數，會出現error  
+
+\newpage
+
+# **`special value`**
+* #### 缺失值 `NA`
+```{r}
+NA
+```
+* #### 不存在的數 `NaN`
+```{r}
+0/0
+```
+* #### 無窮 `Inf` `-Inf`
+```{r}
+5/0
+-5/0
+```
+* #### 空值 `Null`
+```{r}
+x <- c()
+x
+```
+
+\newpage
+
+# **`Approximated values`**
+* #### 四捨五入 `round()` & `signif()`
+```{r}
+round(123.456)
+round(123.456123,digits=3)
+round(123.456,digits=-2)
+round(123456789,digits=-6)
+signif(123456.789,digits=2)
+signif(123456.789,digits=5)
+```
+* #### 進/退位 `floor()` & `ceiling()`
+```{r}
+floor(123.789)
+ceiling(456.123)
+```
+* #### 選取整數 `trunc()`
+```{r}
+trunc(123.456)
+```
+
+\newpage
+
+# **`Descriptive statistics`**
+  + #### 平均數`mean()`
+  + #### 變異數`var()`
+  + #### 中位數`median()`
+  + #### 百分位數`quantile()`
+  + #### 最大值`max()` 最小值`min()`
+  + #### 加總`sum()`
+```{r}
+x <- 1:25
+mean(x)
+var(x)
+median(x)
+quantile(x,c(0.25,0.5,0.75))
+max(x)
+min(x)
+sum(x)
+```
+* #### 去除缺失值 `na.rm`
+```{r}
+x <- c(1:25, NA)
+mean(x)  #因為有缺失值，故無法算出。
+mean(x, na.rm = TRUE)
+var(x, na.rm = TRUE)
+```
+* #### 摘要 `summary()`
+```{r}
+summary(x)
+```
+
+\newpage
+
+# **`Numeric Vectors`**
+* #### vectors的指派
+```{r}
+vt1 <- c(2:4) 
+vt2 <- c(3:6) 
+vt2 <- c(vt2, vt1) 
+vt2
+vt1[4] <- 8
+vt1
+```
+* #### vectors的索引 `[]`
+```{r}
+vt1[3]
+vt1[-2] #去除vt1中的第2個數
+```
+* #### vectors的長度 `length()`
+```{r}
+length(vt2)
+```
+* #### vectors的計算
+```{r}
+x <- c(3, 6, 9) 
+x * 3
+c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10) %% 2:3
+c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10) %% rep(2:3, 10)
+```
+p.s.較短的vectors會循環
+
+* #### vectors中的元素
+  + #### vectors中有出現的數字`unique()`
+  + #### vectors中各數字出現次數`table()`
+```{r}
+b <- c(3, 3, 3, 3, 5, 5, 1, 2, 10, 10, 8)
+unique(b)
+table(b) 
+```
+* #### 集合論
+  + #### 交集`union()`
+  + #### 連集`intersect()`
+  + #### 差集`setdiff()`
+  + #### 是否相等`setequal()` 
+```{r}
+B <- c(3, 1, 5, 4, 7); C <- c(23, 1, 44, 5, 3)
+union(B, C)
+intersect(B, C)
+setdiff(B, C)
+setequal(B, C)
+```
+* #### 排序`sort()` `decreasing`為排序依據
+```{r}
+a <- c(3, 4, 2, 7, 10, 23, 8, 9, 11) 
+sort(a)
+sort(a, decreasing = TRUE)
+```
+* #### 順序`order()` `decreasing`為順序依據
+```{r}
+a <- c(3, 4, 2, 7, 10, 23, 8, 9, 11) 
+inc.order <- order(a) 
+dec.order <- order(a, decreasing = TRUE) 
+inc.order
+a[inc.order]
+dec.order
+a[dec.order]
+```
+* #### 修改數值
+```{r}
+a <- c(3, 4, 2, 7, 10, 23, 8, 9, 11) 
+a[5] <- -3 
+a[8] <- -1 
+a 
+```
+
+\newpage
+
+# **`Character Vectors`**
+* #### 輸出`Print()`
+```{r}
+"Hello World!!!" 
+print("Hello R World!!!")
+```
+* #### 大寫`toupper` 小寫`tolower`
+```{r}
+TEXT1 <- "Let's go to a game." 
+TEXT2 <- "Hurry! We are late!" 
+toupper(TEXT1)
+tolower(TEXT2) 
+```
+* #### 字串
+```{r}
+colors <- c("red", "yellow", "BLUE")
+more.colors <- c(colors, "green", "cyan")
+more.colors
+z <- c("red", "green", 12)
+z
+```
+* #### 分解字串`strsplit()`
+```{r}
+strsplit(TEXT1, " ")
+strsplit(TEXT2, "!")
+```
+* #### 提取字串`substr( )`
+```{r}
+colors <- c("red", "yellow", "blue")
+substr(colors, 1, 3)
+```
+* #### 尋找字串`grep( )`
+```{r}
+grep("y", more.colors)
+grep("e", more.colors)
+```
+* #### 黏貼字串`paste( )`
+```{r}
+paste(colors, "line") 
+paste(colors, "line", sep = "" ) 
+paste("I like", colors, collapse = "; ")
+```
+* #### 類別向量`factor( )`
+```{r}
+num <- c(1,2,3)
+fac <- factor(num)
+fac
+```
+
+\newpage
+
+# **`Logical Vectors`**
+* #### 布林值
+```{r}
+TRUE
+FALSE
+T
+F
+```
+* #### 數字的布林值判斷
+```{r}
+c(1<2,8>10)
+3!=8
+```
+* #### 布林值的計算
+```{r}
+A <- c(T, T, F, T, F)
+B <- c(3, 1, 5, 4, 7)
+A
+B[A]
+!A
+B[!A]
+sum(A)
+```
+* #### 布林值向量
+```{r}
+B <- c(3, 1, 5, 4, 7)
+C <- c(23, 1, 44, 5, 3)
+B == C 
+```
+* #### `is.XXX`系列 判定是否為XXX
+  + #### `is.na`
+  + #### `is.interger`
+  + #### `is.character`
+  + #### `is.double`
+```{r}
+is.null(c())
+c(is.na(NA), is.na(2))
+x1 <- 1:5
+x2 <- c(1:3, 2.2)
+x3 <- colors 
+c(is.integer(x1), is.numeric(x1), is.double(x1))
+c(is.integer(x2), is.numeric(x2), is.double(x2))
+c(is.character(x3), is.numeric(x3))
+```
+
+\newpage
+
+# **`Matrix`**
+* #### 以列結合的matrix `rbind()`
+```{r}
+a <- 1:5 ;b <- 6:10 ;c <- 11:15 ;d <- 16:20
+M1 <- rbind(a,b,c,d)
+M1
+```
+* #### 以行結合的matrix `cbind()`
+```{r}
+M2 <- cbind(a,b,c,d)
+M2
+```
+* #### 維度 `dim()` 維度名稱 `dimnames()`
+```{r}
+dim(M1)
+dim(M2)
+dimnames(M1)
+dimnames(M2) 
+```
+* #### 一個vector製成的matrix `matrix(數字,行數,列數)`
+```{r}
+X <- 1:20
+matrix(X, nrow = 5, ncol = 4)
+matrix(X, nrow = 4, ncol = 5)
+matrix(X, nrow = 4, ncol = 5, byrow = TRUE)
+```
+* #### 行名`colnames()` & 列名`rownames`
+```{r}
+colnames(M1); rownames(M1)
+```
+* #### matrix的索引 `[列,行]`
+```{r}
+M1[2,4]
+M1[,4]
+M1[c(2,4),]
+M1[c("b", "c"), ]
+M1[5]
+```
+
+\newpage
+
+# **`Evaluation of Matrix`**
+* #### 基本計算
+```{r}
+A <- matrix(c(1:4), 2, 2)
+A + 3
+A * 5
+B <- matrix(c(5:8), 2, 2)
+A + B
+A * B
+```
+* #### 基本統計量
+```{r}
+C <- matrix(1:9, 3, 3) 
+colSums(C) 
+rowSums(C)
+colMeans(C)
+rowMeans(C)
+```
+* #### 轉置矩陣`t()` 對角線`diag()` 行列式值`det()` 反矩陣`solve()`
+```{r}
+t(A)
+diag(A)
+det(A)
+solve(A)
+```
+* #### 矩陣乘法`%*%`
+```{r}
+A %*% B
+```
+* #### 特徵值&特徵向量`eigen()`
+```{r}
+eigen(A)
+eigen(A)$value
+eigen(A)$vectors
+```
+
+\newpage
+
+# **`Control Flow`**
+* #### `for()` for (index in vector) {commands} 對於
+```{r}
+a <- c()
+for(i in 1:5){
+  a <- c(a,i)
+}
+a
+```
+* #### `if()` if (condition) {commands when TRUE}else if (condition) {commands when TRUE}else {commands when TRUE} `ifelse()` ifelse(condition, commands when TRUE, commands when FALSE) 若
+```{r}
+b <- c(1,2,NA,3,4,NA,5,NA)
+for(i in 1:length(b)){
+  if(is.na(b[i])) print("NA！")
+}
+
+for(j in 1:length(b)){
+  if(is.na(b[j])){
+    print("NA again！")
+  }else{
+    a <- c(a,b[j])
+  }
+}
+a
+
+a1 <- ifelse(a == 1 ,"Good","Bad")
+a1
+```
+* #### `while()` while (condition) {statements} 當
+```{r}
+i <- 1
+while(i <= 5){
+  print(i)
+  i <- i + 1 } 
+```
+* #### `break` if (condition) break 停止 `repeat` repeat {statements} 重複
+```{r}
+a <- c(1,2,3,4,5,6,7,8)
+i = 0
+repeat{
+  i = i + 1
+  if(a[i] == 5) break
+  print(i)
+}
+```
+
+\newpage
+
+# **`Function`**
+* #### 公式`function()` 回傳值`return()`
+```{r}
+f <- function(x){
+  return(2*x+3)
+}
+f(2)
+
+f2 <- function(x,y){
+  return(2*x+y^2+2)
+}
+f2(2,3)
+
+f3 <- function(x){
+  return(c(2*x,x^2,3))
+}
+f3(3)
+```
+
+\newpage
+
+# **`Data Frame`**
+* #### `dataframe()` 類似矩陣，但dataframe每行有自己的名稱，能與其他行不同類型  
+* ####`$`可拿來提取dataframe每行的值
+```{r}
+english <- c("a","b","c")
+number <- c(1,2,3)
+df <- data.frame(english,number)
+df
+str(df)
+```
+
+# **`Data input and output`**
+* #### 改變路徑`setwd()` 求路徑`getwd()`
+* ####  讀txt檔`read.table(“XXX.txt”)` 讀csv檔`read.csv(“XXX.csv”)`寫txt檔`write.table(A,“XXX.txt”)` 寫csv檔`write.csv(A,“XXX.csv”)`
+
+# **`R Package`**
+* #### 下載套件`install.packages("XXX")` 提取套件`library("XXX")`
+
+\newpage
+
+# **`R Graphics`**
+* #### 基本圖形  
+  + #### 長條圖`hist()`
+  + #### 盒鬚圖`boxplot()`
+  + #### 散布圖`plot()`
+  + #### 曲線圖`curve()`
+  + #### 直方圖`barplot()`
+  + #### 圓餅圖`pie()`
+  + #### 散布圖矩陣`pairs()`  
+```{r}
+x.norm <- rnorm(100, mean=0, sd=1)
+hist(x.norm)
+boxplot(x.norm)
+plot(x.norm)
+plot(density(x.norm))
+
+curve(dnorm(x), -10, 10) 
+
+x <- sample(c(1:8),100,replace=TRUE,prob=c(8:1)) 
+x <- table(x)
+names(x)<-c("A","B","C","D","E","F","G","H") 
+barplot(x)
+pie(x)
+
+X <- matrix(rnorm(30),10,3)
+pairs(X)
+```
+* #### 基本設定
+  + #### 加點`points()`
+  + #### 加線`abline()`
+  + #### 加文本`text()`
+  + #### 加圖標`legend()`
+```{r}
+x <- c(1,2,3,4,5,6,7,8,9,10)
+y <- c(10,9,8,7,6,5,4,3,2,1)
+plot(x, y, type = "p", ### types of the plot
+     pch = 20, ### the symbol in the plot
+     main = "Test", ### the title of the plot
+     lty = 1, ### the style of a line
+     lwd = 1, ### the width of a line
+     cex = 1, ### the size of an text
+     bty="o", ### the box around the plot
+     col = "red", ### the color of an object
+     xlim = NULL, ylim = NULL, # the range of an axis 
+     sub = "test", ### the sub-title of the plot
+     xlab = NULL, ylab = NULL, # the name of an axis
+     cex.main = 1 ### the size of the title
+)
+points(3,3,pch = 20,col = 4)
+abline(a=11,b=-1)
+text(7,7,"t")
+legend("topright",c("t"),col=1,lty=1)
+```
+
+\newpage
+
+# **`RMarkdown`**
+Compile a single R Markdown document to a report in diﬀerent formats, such as PDF, HTML, or Word.
+Create notebooks in which you can directly run code chunks interactively.
+Make slides for presentations (HTML5, LaTeX Beamer, or PowerPoint). 
